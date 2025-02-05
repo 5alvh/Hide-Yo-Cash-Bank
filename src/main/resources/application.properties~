@@ -1,7 +1,6 @@
 spring.application.name=${SPRING_APP_NAME:miBanco}
 spring.security.user.name=${SECURITY_USER_NAME:admin}
 spring.security.user.password=${SECURITY_USER_PASSWORD:admin}
-logging.level.org.springframework.security=${SPRING_SECURITY_LOG_LEVEL:TRACE}
 
 logging.pattern.console=${LOG_PATTERN_CONSOLE:%green(%d{HH:mm:ss:SSS}) %yellow([%thread]) %blue(%-5level) %cyan(%logger{15}) - %msg%n}
 
