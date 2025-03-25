@@ -24,7 +24,6 @@ public class MyBankUsernamePwdAuthenticationProvider implements AuthenticationPr
         String password = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
-            //Fetch age details and perform validation check
             return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
         }else {
             throw new BadCredentialsException("Invalid password");

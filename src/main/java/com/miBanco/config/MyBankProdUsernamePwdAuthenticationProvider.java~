@@ -1,4 +1,0 @@
-package com.miBanco.config;
-
-public class MyBankProdUsernamePwdAuthenticationProvider {
-}
