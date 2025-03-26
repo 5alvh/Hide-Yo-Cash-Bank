@@ -1,6 +1,7 @@
 package com.miBanco.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Profile("!prod")
 public class MyBankUsernamePwdAuthenticationProvider implements AuthenticationProvider {
 
     private final UserDetailsService userDetailsService;
@@ -23,11 +25,8 @@ public class MyBankUsernamePwdAuthenticationProvider implements AuthenticationPr
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (passwordEncoder.matches(password, userDetails.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
-        }else {
-            throw new BadCredentialsException("Invalid password");
-        }
+
+        return new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
     }
 
     @Override
