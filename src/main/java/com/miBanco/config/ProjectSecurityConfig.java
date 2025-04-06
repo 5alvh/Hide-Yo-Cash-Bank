@@ -1,5 +1,6 @@
 package com.miBanco.config;
 
+import com.miBanco.exceptionHandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -28,7 +29,8 @@ public class ProjectSecurityConfig {
 
                 );
         http.formLogin(withDefaults());
-        http.httpBasic(withDefaults());
+        http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        //http.exceptionHandling(eh -> eh.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));//Global Config
         return http.build();
     }
 
