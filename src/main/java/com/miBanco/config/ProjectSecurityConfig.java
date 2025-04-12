@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,7 +23,9 @@ public class ProjectSecurityConfig {
         /*http.authorizeHttpRequests((requests) -> requests.anyRequest().denyAll());*/
         /*http.authorizeHttpRequests((requests) -> requests.anyRequest().permitAll());*/
         http
-        .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession").maximumSessions(3).maxSessionsPreventsLogin(true))
+        .sessionManagement(smc -> smc
+                .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession)
+                .invalidSessionUrl("/invalidSession").maximumSessions(3).maxSessionsPreventsLogin(true))
         .requiresChannel((requests) -> requests.anyRequest().requiresInsecure())
         .csrf(csrfConfig -> csrfConfig.disable());
         http.authorizeHttpRequests(
