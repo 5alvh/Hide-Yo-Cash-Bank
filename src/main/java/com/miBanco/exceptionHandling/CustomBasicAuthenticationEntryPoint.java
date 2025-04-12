@@ -14,9 +14,9 @@ public class CustomBasicAuthenticationEntryPoint implements AuthenticationEntryP
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        String message = (authException != null && authException.getMessage() != null) ? authException.getMessage() : "";
+        String message = (authException != null && authException.getMessage() != null) ? authException.getMessage() : "Unauthorized";
         String path = request.getRequestURI();
-        response.setHeader("eazybank-error-reason", "Authentication Failed");
+        response.setHeader("hideYoCash-error-reason", "Authentication Failed");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json;charset=UTF-8");
 

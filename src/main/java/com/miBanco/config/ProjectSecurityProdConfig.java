@@ -1,5 +1,6 @@
 package com.miBanco.config;
 
+import com.miBanco.exceptionHandling.CustomAccessDenied;
 import com.miBanco.exceptionHandling.CustomBasicAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,12 +22,14 @@ public class ProjectSecurityProdConfig {
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http
+        .sessionManagement(smc -> smc.invalidSessionUrl("/invalidSession").maximumSessions(1).maxSessionsPreventsLogin(true))
         .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated()
-                        .requestMatchers("/notices", "/contact", "/error", "/register").permitAll());
+                        .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/notices","/myCards").authenticated()
+                        .requestMatchers( "/contact", "/error", "/register","/invalidSession").permitAll());
         http.formLogin(withDefaults());
         http.httpBasic(hbc -> hbc.authenticationEntryPoint(new CustomBasicAuthenticationEntryPoint()));
+        http.exceptionHandling(eh -> eh.accessDeniedHandler(new CustomAccessDenied()));//Global Config
         return http.build();
     }
 
