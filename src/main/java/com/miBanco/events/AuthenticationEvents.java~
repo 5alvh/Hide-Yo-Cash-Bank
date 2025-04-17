@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class AuthenticationEvents {
-    //The success event is fired when the authentication is successful
-    //Events in spring security are messages that fire when something happens
+
     @EventListener
     public void onSuccess(AuthenticationSuccessEvent event) {
         log.info("Login successful for the user: {}", event.getAuthentication().getName());
